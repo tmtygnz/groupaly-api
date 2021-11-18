@@ -1,0 +1,22 @@
+{
+  "name": "groupaly-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon main.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^16.11.7",
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "fastify": "^3.24.0",
+    "firebase-admin": "^10.0.0",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  }
+}
