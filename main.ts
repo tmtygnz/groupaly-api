@@ -22,7 +22,6 @@ server.get("/quote", async (req, res) => {
 server.get("/users/get", async (req, res) => {
   //TODO: Make this more elegant later
   const uid = req.headers.userid;
-  console.log(req.headers);
   let rest = await db.getUser(uid?.toString()!);
   res.send(rest);
   console.log("/users/get");
@@ -31,7 +30,6 @@ server.get("/users/get", async (req, res) => {
 server.post("/users/create", async (req, res) => {
   const name = req.headers.username;
   const uid = req.headers.userid;
-  console.log(req.headers);
   const resp = await db.createUser(name?.toString()!, uid?.toString()!);
   res.send(resp);
   console.log("/users/create");

@@ -25,7 +25,7 @@ class database {
   async generateKey(): Promise<string> {
     const randKey = randomBytes(265).toString();
     const hashedKey = await createHash("sha256").update(randKey).digest("hex");
-    return hashedKey
+    return hashedKey;
   }
 
   async getUser(uid: string): Promise<string | DocumentData> {
@@ -33,7 +33,7 @@ class database {
      * Get's user info of uid and only send .data
      */
     const user = await db.collection("users").doc(uid).get();
-    if (user) {
+    if (user.exists) {
       return user.data()!;
     } else {
       return { message: "User Does Not Exist" };
@@ -46,7 +46,8 @@ class database {
      */
     const userRef = db.collection("users").doc(uid);
     const user = await userRef.get();
-    if (user) {
+    if (user.exists) {
+      console.log(user);
       return { message: "User Already Created" };
     } else {
       let userTemplate: IUser = {
@@ -57,7 +58,7 @@ class database {
         taskDoneThisWeek: [0],
       };
       userRef.set(userTemplate);
-      return {message: "User Created"}
+      return { message: "User Created" };
     }
   }
 }
