@@ -7,6 +7,7 @@ const db = new database();
 const server = fastify();
 
 server.register(require("fastify-cors"), { origin: "*" });
+server.register(require("fastify-compress"), { global: false });
 
 server.get("/", async (req, res) => {
   res.send("Hello There");

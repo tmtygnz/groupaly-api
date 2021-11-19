@@ -47,7 +47,6 @@ class database {
     const userRef = db.collection("users").doc(uid);
     const user = await userRef.get();
     if (user.exists) {
-      console.log(user);
       return { message: "User Already Created" };
     } else {
       let userTemplate: IUser = {
