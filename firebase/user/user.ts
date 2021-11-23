@@ -32,6 +32,7 @@ class database {
     /**
      * Get's user info of uid and only send .data
      */
+    console.log(uid);
     const user = await db.collection("users").doc(uid).get();
     if (user.exists) {
       return user.data()!;
@@ -53,8 +54,10 @@ class database {
         name: name,
         dateCreated: Timestamp.now(),
         key: await this.generateKey(),
-        sessionsDoneThisWeek: [0],
-        taskDoneThisWeek: [0],
+        sessionsCompletedThisWeek: [0],
+        taskCompletedThisWeek: [0],
+        numSessionsCompleted: 0,
+        numTaskCompleted: 0,
       };
       userRef.set(userTemplate);
       return { message: "User Created" };
