@@ -21,7 +21,7 @@ server.get("/quote", async (req, res) => {
 });
 
 server.get("/users/get", async (req, res) => {
-  //TODO: Make this more elegant later
+  //TODO: Make this more readable
   const uid = req.headers.userid;
   let rest = await db.getUser(uid?.toString()!);
   res.send(rest);
