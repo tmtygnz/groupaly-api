@@ -53,6 +53,9 @@ io.on("connection", (socket: Socket) => {
       .in(user.sid)
       .emit("user-join", `user ${user.user.name} joined the session`);
   });
+  socket.on("disconnect", () => {
+    yellow("A user disconnected");
+  });
 });
 
 httpServer.listen(3001, () => {
