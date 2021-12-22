@@ -9,6 +9,7 @@ import { IosApp } from "firebase-admin/lib/project-management/ios-app";
 import {
   addParticipant,
   getParticipantsFromSession,
+  IParticipant,
   participants,
 } from "./session/user";
 const db = new database();
@@ -52,12 +53,11 @@ server.post("/users/create", async (req, res) => {
 server.ready().then(() => {
   server.io.on("connection", (socket: Socket) => {
     console.log("user connected");
-    socket.on("join", (user: IJoin) => {
-      addParticipant(user.user, user.id);
-
-      //get the latest list of participants
-      const participantsInSession = getParticipantsFromSession(user.id);
-      server.io.emit("new-user-join", participantsInSession);
+    socket.on("disconnect", () => console.log("User disconnected"));
+    socket.on("join", (user: IParticipant) => {
+      console.log(`${user.user} | ${user.sid}`);
+      addParticipant(user.user, user.sid);
+      server.io.in("testSession").emit("user-join", "Hello World");
     });
   });
 });
@@ -69,8 +69,3 @@ server.listen(3001, (err, addr) => {
   }
   console.log(`Running in port ${addr}`);
 });
-
-export interface IJoin {
-  user: IUser;
-  id: string;
-}

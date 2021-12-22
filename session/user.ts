@@ -5,7 +5,7 @@ export let participants:Array<IParticipant> = [];
 export const addParticipant = (User: IUser, sid: string) => {
   const participant: IParticipant = {
     user: User,
-    id: sid,
+    sid: sid,
   };
   participants.push(participant);
 };
@@ -20,11 +20,11 @@ export const removeParticipant = (participant: IParticipant) => {
 }
 
 export const getParticipantsFromSession = (sid: string) => {
-  const participantsInSession = participants.filter(users => users.id == sid);
+  const participantsInSession = participants.filter(users => users.sid == sid);
   return participantsInSession;
 }
 
 export interface IParticipant {
   user: IUser;
-  id: string;
+  sid: string;
 }
