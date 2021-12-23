@@ -45,6 +45,7 @@ class database {
     /**
      * Create a use using the name and uid given.
      */
+    console.log(`${name} | ${uid}`);
     const userRef = db.collection("users").doc(uid);
     const user = await userRef.get();
     if (user.exists) {
@@ -53,6 +54,7 @@ class database {
       let userTemplate: IUser = {
         name: name,
         dateCreated: Timestamp.now(),
+        uid: uid,
         key: await this.generateKey(),
         sessionsCompletedThisWeek: [0],
         taskCompletedThisWeek: [0],
@@ -60,7 +62,7 @@ class database {
         numTaskCompleted: 0,
       };
       userRef.set(userTemplate);
-      return { message: "User Created" };
+      return { message: "User Created", data: userTemplate };
     }
   }
 }

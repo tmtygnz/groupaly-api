@@ -1,3 +1,4 @@
+import { red } from "../clog/clog";
 import { IUser } from "../firebase/user/IUser";
 
 export let participants:Array<IParticipant> = [];
@@ -11,11 +12,9 @@ export const addParticipant = (User: IUser, sid: string) => {
 };
 
 export const removeParticipant = (participant: IParticipant) => {
-  for (let i = 0; i != participants.length; i++){
-    if (participants[i] == participant){
-      participants.slice(i,1);
-      break;
-    }
+  const i = participants.indexOf(participant);
+  if (i > 0){
+  
   }
 }
 

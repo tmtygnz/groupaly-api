@@ -35,13 +35,14 @@ app.get("/users/get", async (req, res) => {
 });
 
 app.post("/users/create", async (req, res) => {
-  const name = req.headers.name;
+  const name = req.headers.username;
   const uid = req.headers.userid;
   const createUserResp = await db.createUser(
     name?.toString()!,
     uid?.toString()!
   );
-  res.send(createUserResp);
+  red(JSON.stringify(createUserResp.data));
+  res.send(createUserResp.data);
 });
 
 io.on("connection", (socket: Socket) => {
@@ -51,7 +52,7 @@ io.on("connection", (socket: Socket) => {
     socket.join(user.sid);
     io.sockets
       .in(user.sid)
-      .emit("user-join", `user ${user.user.name} joined the session`);
+      .emit("user-join", `user joined the session`);
   });
   socket.on("disconnect", () => {
     yellow("A user disconnected");
