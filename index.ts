@@ -5,7 +5,14 @@ import { Server, Socket } from "socket.io";
 import { getQuote } from "./quote/quote";
 import { green, red, yellow } from "./clog/clog";
 import cors from "cors";
-import { addParticipant, IParticipant } from "./session/user";
+import {
+  addParticipant,
+  getParticipantsFromSession,
+  IParticipant,
+  participants,
+  removeParticipant,
+  sockets,
+} from "./session/user";
 
 yellow("server starting!");
 
@@ -50,12 +57,24 @@ io.on("connection", (socket: Socket) => {
   socket.on("me-join", (user: IParticipant) => {
     red(`${user} | ${user.sid}`);
     socket.join(user.sid);
-    io.sockets
-      .in(user.sid)
-      .emit("user-join", `user joined the session`);
+    addParticipant(user.user, user.sid, socket);
+
+    //get users
+    const participants = getParticipantsFromSession(user.sid);
+    io.sockets.in(user.sid).emit("user-join", participants);
   });
-  socket.on("disconnect", () => {
-    yellow("A user disconnected");
+  socket.on("disconnecting", () => {
+    for (const room in socket.rooms) {
+      console.log(room);
+      if (room == socket.id) {
+        io.in(socket.id).emit(
+          "user-left",
+          `${participants[sockets.indexOf(socket)].user.name} left`
+        );
+      }
+    }
+    yellow("A user is disconnecting");
+    removeParticipant(socket);
   });
 });
 
